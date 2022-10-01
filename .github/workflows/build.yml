@@ -14,7 +14,7 @@ jobs:
       - name: Compile LaTeX documents
         uses: xu-cheng/latex-action@v2
         with:
-          root_file: "./src/labs/*.tex"
+          root_file: src/labs/lab5.tex
           glob_root_file: true
           latexmk_use_lualatex: true
-          working_directory: "./src/labs"
+#          working_directory: "./src/labs"
