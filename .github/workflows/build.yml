@@ -14,14 +14,14 @@ jobs:
       - name: Compile LaTeX documents
         uses: xu-cheng/latex-action@v2
         with:
-          root_file: src/labs/*.tex
+          root_file: "*.tex"
+          working_directory: "/github/workspace/src/labs"
           glob_root_file: true
           latexmk_use_lualatex: true
-          extra_fonts: |
-            ./src/static/Times New Roman.ttf
+          extra_fonts: "/github/workspace/src/static/roman.ttf"
       - name: Create a release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          files: "*.pdf"
+          files: "./src/labs/*.pdf"
           automatic_release_tag: "latest"
