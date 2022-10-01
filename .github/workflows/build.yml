@@ -14,12 +14,11 @@ jobs:
       - name: Compile LaTeX documents
         uses: xu-cheng/latex-action@v2
         with:
-          root_file: src/labs/lab5.tex
+          root_file: src/labs/*.tex
           glob_root_file: true
           latexmk_use_lualatex: true
           extra_fonts: |
             ./src/static/Times New Roman.ttf
-#          working_directory: "./src/labs"
       - name: Create a release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
