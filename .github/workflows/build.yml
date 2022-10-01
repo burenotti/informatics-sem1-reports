@@ -25,3 +25,4 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           files: "*.pdf"
+          automatic_release_tag: "latest"
