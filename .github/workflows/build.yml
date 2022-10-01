@@ -20,3 +20,8 @@ jobs:
           extra_fonts: |
             ./src/static/Times New Roman.ttf
 #          working_directory: "./src/labs"
+      - name: Create a release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          files: "*.pdf"
