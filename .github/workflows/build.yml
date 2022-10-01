@@ -17,4 +17,6 @@ jobs:
           root_file: src/labs/lab5.tex
           glob_root_file: true
           latexmk_use_lualatex: true
+          extra_fonts: |
+            ./src/static/Times New Roman.ttf
 #          working_directory: "./src/labs"
