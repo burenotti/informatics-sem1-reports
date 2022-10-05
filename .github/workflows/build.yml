@@ -12,9 +12,10 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v2
       - name: Determining which lab should be released
-        run: echo cat .build
-            | echo "LAB_TITLE=$(cat .build)" >> $GITHUB_ENV
-            | echo "RELEASE_TAG=$(echo "release/lab5" | awk '{n=split($1,A,"/"); print A[n]}')" >> $GITHUB_ENV
+        run: |
+            echo cat .build
+            echo "LAB_TITLE=$(cat .build)" >> $GITHUB_ENV
+            echo "RELEASE_TAG=$(echo "release/lab5" | awk '{n=split($1,A,"/"); print A[n]}')" >> $GITHUB_ENV
       - name: Compile LaTeX documents
         uses: xu-cheng/latex-action@v2
         with:
@@ -27,5 +28,7 @@ jobs:
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          files: "./src/${{ env.LAB_TITLE }}/*.pdf"
+          files: |
+            ./src/${{ env.LAB_TITLE }}/*.pdf
+            ./src/${{ env.LAB_TITLE }}/*.circ
           automatic_release_tag: "${{ github.RELEASE_TAG }}"
