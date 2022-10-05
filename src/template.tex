@@ -1,4 +1,4 @@
-\documentclass[a4paper]{report}
+\documentclass[a4paper]{article}
 \author{Буренин А.А}
 
 
@@ -22,14 +22,69 @@
     footskip=10mm
 ]{geometry}
 \usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{tocloft}
+\usepackage{titlesec}
+\usepackage{ragged2e}
+\usepackage{hyperref}
+\usepackage{textcase}
+\usepackage{sectsty}
 
-\include{title_page}
+
+% Подключает команду \mireatile
+\input{./title_page}
+
+
+% Каким-то макаром делает загаловки в содержании
+% написанными большими буквами
+\makeatletter
+\let\oldcontentsline\contentsline
+\def\contentsline#1#2{%
+    \expandafter\ifx\csname l@#1\endcsname\l@section
+    \expandafter\@firstoftwo
+    \else
+    \expandafter\@secondoftwo
+    \fi
+    {%
+        \oldcontentsline{#1}{\MakeTextUppercase{#2}}%
+    }{%
+        \oldcontentsline{#1}{#2}%
+    }%
+}
+\makeatother
+
+
+% Центрирует заголовок содержания
+\renewcommand\cfttoctitlefont{\hfill\Large\mdseries}
+\renewcommand\cftaftertoctitle{\hfill\mbox{}}
+
+% Убирает полужирность у элементов содержания
+\renewcommand\cftsecfont{\mdseries}
+
+% Центрирует заголовки секций
+%\titleformat{\section}[block]{\large\bfseries\filcenter}{}{1em}{}
+\sectionfont{\large\bfseries\centering}
+
 
 \begin{document}
 
     % номер практики, номер группы, имя студента, имя преподавателя, должность преподавателя
-    \mireatitle{100}{ИКБО-14-22}{Иванов А.А.}{Карпов С.Д.}{Магистр душнила}
+    \mireatitle{5}{ИКБО-14-22}{Буренин А.А.}{Карпов Д.А.}{}
+
+    \tableofcontents{}
+    \clearpage
 
 
+    \clearpage\section{Постановка задачи}\label{sec:introduction}
+    \subsection*{Subsection}\label{subsec:subsection}
+
+
+    \clearpage\section{Проектирование и реализация}\label{sec:implementation}
+
+
+    \clearpage\section{Выводы}\label{sec:conclusion}
+
+
+    \clearpage\section{Информационные источники}\label{sec:sources}
 
 \end{document}
