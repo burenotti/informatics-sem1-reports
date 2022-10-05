@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    tags:
+      - lab*
 
 jobs:
   build:
@@ -11,11 +13,13 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
+      - name: Determining which lab should be released
+        run: echo "LAB_TITLE=$(git tag -l --format='%(contents:subject)'${GITHUB_REF#refs/*/})" >> $GITHUB_ENV
       - name: Compile LaTeX documents
         uses: xu-cheng/latex-action@v2
         with:
           root_file: "*.tex"
-          working_directory: "/github/workspace/src/labs"
+          working_directory: "/github/workspace/src/${{ env.LAB_TITLE }}"
           glob_root_file: true
           latexmk_use_lualatex: true
           extra_fonts: "/github/workspace/src/static/roman.ttf"
@@ -23,5 +27,5 @@ jobs:
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          files: "./src/labs/*.pdf"
-          automatic_release_tag: "latest"
+          files: "./src/${{ env.LAB_TITLE }}/*.pdf"
+          automatic_release_tag: "${{ env.LAB_TITLE }}"
