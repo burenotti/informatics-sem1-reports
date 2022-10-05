@@ -14,8 +14,8 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v2
       - name: Determining which lab should be released
-        run: echo "LAB_TITLE=$(git tag -l --format='%(contents:subject)'${GITHUB_REF#refs/*/})" >> $GITHUB_ENV
-      - run: echo $(git tag -l --format='%(contents:subject)'${GITHUB_REF#refs/*/})
+        run: echo "LAB_TITLE=$(git tag -l --format='%(contents:subject)' ${GITHUB_REF#refs/*/})" >> $GITHUB_ENV
+      - run: echo $(git tag -l --format='%(contents:subject)' ${GITHUB_REF#refs/*/})
       - run: echo $LAB_TITLE
       - name: Compile LaTeX documents
         uses: xu-cheng/latex-action@v2
