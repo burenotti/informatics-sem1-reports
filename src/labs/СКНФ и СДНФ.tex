@@ -1,0 +1,186 @@
+\documentclass[a4paper]{article}
+\author{Буренин А.А}
+
+
+% Packages
+\usepackage{amsmath}
+\usepackage[14pt]{extsizes}
+
+\usepackage{fontspec}
+\setromanfont{Times New Roman}
+
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{multicol}
+\usepackage[
+    a4paper,
+    left=30mm,
+    right=15mm,
+    top=20mm,
+    bottom=20mm,
+    nohead,
+    footskip=10mm
+]{geometry}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{tocloft}
+\usepackage{titlesec}
+\usepackage{ragged2e}
+\usepackage{hyperref}
+\usepackage{textcase}
+\usepackage{sectsty}
+\usepackage{sidecap}
+
+
+\graphicspath{{../static/}}
+
+% Подключает команду \mireatile
+\input{../title_page}
+
+
+% Каким-то макаром делает загаловки в содержании
+% написанными большими буквами
+\makeatletter
+\let\oldcontentsline\contentsline
+\def\contentsline#1#2{%
+    \expandafter\ifx\csname l@#1\endcsname\l@section
+    \expandafter\@firstoftwo
+    \else
+    \expandafter\@secondoftwo
+    \fi
+    {%
+        \oldcontentsline{#1}{\MakeTextUppercase{#2}}%
+    }{%
+        \oldcontentsline{#1}{#2}%
+    }%
+}
+\makeatother
+
+
+% Центрирует заголовок содержания
+\renewcommand\cfttoctitlefont{\hfill\Large\mdseries}
+\renewcommand\cftaftertoctitle{\hfill\mbox{}}
+
+% Убирает полужирность у элементов содержания
+\renewcommand\cftsecfont{\mdseries}
+
+% Центрирует заголовки секций
+\titleformat{\section}[block]{\large\bfseries\filcenter}{}{1em}{}
+\sectionfont{\large\bfseries\centering}
+
+
+\begin{document}
+
+    % номер практики, номер группы, имя студента, имя преподавателя, должность преподавателя
+    \mireatitle{5}{ИКБО-14-22}{Буренин А.А.}{Карпов Д.А.}{}
+
+    \tableofcontents{}
+
+    \clearpage
+
+
+    \section{Постановка задачи}\label{sec:introduction}
+    Логическая функция от четырех переменных задана в 16-теричной векторной форме.
+    Восстановить таблицу истинности. Записать формулы СДНФ и СКНФ. Построить комбинационные
+    схемы СДНФ и СКНФ в лабораторном комплексе, используя общий логический базис.
+    Протестировать работу схем и убедиться в их правильности. Подготовить отчет о проделанной
+    работе и защитить её.
+
+    Логическая функция из персонального варианта:
+    \[ F(a, b, c, d) = 6c6f_{16} \]
+
+
+    \section{Проектирование и реализация}\label{sec:implementation}
+
+    \subsection{Восстановление таблицы истинности}\label{subsec:table-recovering}
+    Преобразовав 16-теричный вектор в двоичную СС, получаем восстановленную таблицу
+    истинности для $ F $ (Таблица~\ref{tab:truth}).
+
+    \begin{table}[h] 
+	    \begin{center}
+        \begin{tabular}{ | c | c | c | c | c | }
+            \hline
+            $ a $ & $ b $ & $ c $ & $ d $ & $ F $ \\
+            \hline
+            0     & 0     & 0     & 0     & 0     \\
+            \hline
+            0     & 0     & 0     & 1     & 1     \\
+            \hline
+            0     & 0     & 1     & 0     & 0     \\
+            \hline
+            0     & 0     & 1     & 1     & 1     \\
+            \hline
+            0     & 1     & 0     & 0     & 1     \\
+            \hline
+            0     & 1     & 0     & 1     & 0     \\
+            \hline
+            0     & 1     & 1     & 0     & 1     \\
+            \hline
+            0     & 1     & 1     & 1     & 0     \\
+            \hline
+            1     & 0     & 0     & 0     & 0     \\
+            \hline
+            1     & 0     & 0     & 1     & 1     \\
+            \hline
+            1     & 0     & 1     & 0     & 1     \\
+            \hline
+            1     & 0     & 1     & 1     & 1     \\
+            \hline
+            1     & 1     & 0     & 0     & 0     \\
+            \hline
+            1     & 1     & 0     & 1     & 1     \\
+            \hline
+            1     & 1     & 1     & 0     & 1     \\
+            \hline
+            1     & 1     & 1     & 1     & 1     \\
+            \hline
+        \end{tabular}
+    	\end{center}
+    	\caption{Таблица истинности}
+    	\label{tab:truth}
+	\end{table}
+
+	\subsection{Формулы СКНФ и СДНФ}
+	По восстановленной таблице истинности (Таблица \ref{tab:truth}) запишем формулы СДНФ и СКНФ. 
+	Для построения формулы СДНФ рассматриваем наборы значений переменных, на которых функция равна единице. Переменные, равные нулю, берем с отрицанием, а переменные, равные единице, без отрицания. В результате этого мы получаем несколько совершенных конъюнкций, объединенных через дизъюнкцию. Это образует формулу СДНФ \eqref{eq:sdnf}.
+	\begin{equation} \label{eq:sdnf}
+			F_{СДНФ}=\bar a \bar b \bar c d  + \bar a \bar b c \bar d + \bar a b \bar c \bar d + \bar a b \bar c d + a \bar b \bar c d + a \bar b c \bar d + ab \bar c \bar d + ab \bar c d  + abc \bar d + abcd
+	\end{equation} 
+
+	Для построения формулы СКНФ рассматриваем наборы значений переменных, на которых функция равна нулю. Переменные, равные нулю, берем без отрицания, а переменные, равные единице, с отрицанием. В результате чего мы получаем несколько совершенных дизъюнкций, объединенных через конъюнкцию. Это образует формулу СКНФ \eqref{eq:sknf}.
+	
+	
+	\begin{equation} \label{eq:sknf}
+		F_{СКНФ}=(a + b + c + d)\cdot(a + b + \bar c + \bar d)\cdot(a + \bar b + \bar c + d)\cdot(\bar a + b + c + d)\cdot(\bar a + b + \bar c + \bar d)
+	\end{equation}
+	\subsection{Схемы, реализующие СДНФ и СКНФ в общем логическом базисе}
+	Построим в лабораторном комплексе комбинационные схемы, реализующие СДНФ (Рисунок \ref{img:sdnf}) и СКНФ (Рисунок \ref{img:sknf}) рассматриваемой функции в общем логическом базисе.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.8\textwidth]{sdnf.png}
+		
+		\caption{\centering Комбинационная схема, реализующая СДНФ в общем логическом базисе.}
+		\label{img:sdnf}
+	\end{figure}
+
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.8\textwidth]{sknf.png}
+	
+		\caption{\centering Комбинационная схема, реализующая СКНФ в общем логическом базисе.}
+		\label{img:sknf}
+	\end{figure}
+
+    \section{Выводы}\label{sec:conclusion}
+    По данной логической функции от четырех переменных, заданной в 16-теричной векторной форме была восстановлена таблица истинности (Таблица \ref{tab:truth}). По ней были составлены формулы СДНФ \eqref{eq:sdnf} и СКНФ \eqref{eq:sknf}. Построены комбинационные схемы СДНФ (Рисунок \ref{img:sdnf}) и СКНФ (\ref{img:sknf}) в лабораторном комплексе с использованием общего логического базиса. Протестирована работа схем и их правильность.
+
+
+    \section{Информационные источники}\label{sec:sources}
+    \begin{enumerate}
+    	\item Информатика: Методические указания по выполнению практических 
+    	работ / С.С. Смирнов, Д.А. Карпов - М., МИРЭА - Российский технологический университет, 2020.–102 с.
+    	\item Лекционный материал / С.С. Смирнов.
+    \end{enumerate}
+
+\end{document}
