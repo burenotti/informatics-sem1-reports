@@ -14,6 +14,7 @@ jobs:
       - name: Determining which lab should be released
         run: echo cat .build
              | echo "LAB_TITLE=$(cat .build)" >> $GITHUB_ENV
+             | echo "RELEASE_TAG=$(echo "release/lab5" | awk '{n=split($1,A,"/"); print A[n]}')" >> $GITHUB_ENV
       - name: Compile LaTeX documents
         uses: xu-cheng/latex-action@v2
         with:
@@ -27,4 +28,4 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           files: "./src/${{ env.LAB_TITLE }}/*.pdf"
-          automatic_release_tag: "${{ github.ref_name }}"
+          automatic_release_tag: "${{ env.RELEASE_TAG }}"
