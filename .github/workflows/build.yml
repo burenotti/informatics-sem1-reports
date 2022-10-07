@@ -31,4 +31,4 @@ jobs:
           files: |
             ./src/${{ env.LAB_TITLE }}/*.pdf
             ./src/${{ env.LAB_TITLE }}/*.circ
-          automatic_release_tag: "${{ github.RELEASE_TAG }}"
+          automatic_release_tag: "${{ env.RELEASE_TAG }}"
